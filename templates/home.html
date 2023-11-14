@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    Hi {{ user.username }}!
+    {% if user.role == 'pastor' %}
+    
+        <h2>Welcome to the  Pastor Dashboard</h2>
+
+        {% comment %} <!-- Create Class Button -->
+        <a href="{% url 'create_class' %}">
+            <button>Create Class</button>
+        </a>
+
+        <!-- Add Students Button -->
+        <a href="{% url 'add_students' %}">
+            <button>Add Students</button>
+        </a>
+
+        <!-- Assign Teacher to Class Button -->
+        <a href="{% url 'assign_teacher' %}">
+            <button>Assign Teacher to Class</button>
+        </a>
+
+        <!-- Register Teacher Button -->
+        <a href="{% url 'register_teacher' %}">
+            <button>Register Teacher</button>
+        </a>
+
+        <!-- Register Parent Button -->
+        <a href="{% url 'register_parent' %}">
+            <button>Register Parent</button>
+        </a> {% endcomment %}
+    {% elif user.role == 'teacher' %}
+   
+        <h2>Welcome to the Techer Dashboard</h2>
+
+        <!-- Update Attendance Button -->
+        {% comment %} <a href="{% url 'update_attendance' %}">
+            <button>Update Attendance</button>
+        </a>
+
+        <!-- Contact Parent Button -->
+        <a href="{% url 'contact_parent' %}">
+            <button>Contact Parent</button>
+        </a>
+
+        <!-- Previous Buttons -->
+        <a href="{% url 'create_class' %}">
+            <button>Create Class</button>
+        </a>
+
+        <a href="{% url 'add_students' %}">
+            <button>Add Students</button>
+        </a>
+
+        <a href="{% url 'assign_teacher' %}">
+            <button>Assign Teacher to Class</button>
+        </a>
+
+        <a href="{% url 'register_teacher' %}">
+            <button>Register Teacher</button>
+        </a>
+
+        <a href="{% url 'register_parent' %}">
+            <button>Register Parent</button>
+        </a> {% endcomment %}
+
+    {% endif %}
+    <p><a href="{% url 'logout' %}">Log Out</a></p>
+{% else %}
+    <p>You are not logged in</p>
+    <a href="{% url 'login' %}">Log In</a> |
+    <a href="{% url 'signup' %}">Sign Up</a>
+{% endif %}
+{% endblock content %}

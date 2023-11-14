@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Children{% endblock title %}
+{% block content %}
+    {% for child in object_list %}
+    <div>
+        <span class="font-weight-bold">{{ child.first_name }}</span>
+        <span class="text-muted">by {{ child.parent }}</span>
+    
+    </div>
+    {% endfor %}
+{% endblock content %}

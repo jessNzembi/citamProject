@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="child-entry">
+        <h2>{{ object.first_name }}</h2>
+            <p>by {{ object.parent }}</p>
+    </div>
+    <p>Back to <a href="{% url 'child_list' %}">All Children</a>.</p>
+{% endblock content %}
