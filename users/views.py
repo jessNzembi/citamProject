@@ -4,8 +4,9 @@ from django.views.generic import CreateView
 from django.views.generic.base import View
 from .models import CustomUser, Teacher, Parent
 from django.utils import timezone
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, TeacherCreationForm
 from django.contrib import messages
+from django.contrib.auth.hashers import make_password
 
 
 class SignUpView(CreateView):
@@ -27,7 +28,7 @@ class Login(View):
                     user[0].save()
                     
                     return render(request, 'admin_dash.html')
-        elif role == 'parent':
+        if role == 'parent':
             user = Parent.objects.filter(email=request.POST.get('email'))
             if user:
                 if user[0].check_password(request.POST.get('password')):
@@ -35,7 +36,7 @@ class Login(View):
                     user[0].save()
                     
                     return render(request, 'parent_dash.html')
-        elif role == 'teacher':
+        if role == 'teacher':
             user = Teacher.objects.filter(email=request.POST.get('email'))
             if user:
                 if user[0].check_password(request.POST.get('password')):
@@ -51,14 +52,38 @@ class AddTeacher(View):
         return render(request, 'add_teacher.html')
     
     def post(self, request, *args, **kwargs):
-        data = {
-            'first_name': request.POST.get('first_name'),
-            'last_name': request.POST.get('last_name'),
-            'email': request.POST.get('email'),
-            'password': request.POST.get('password'),
-            'phone_number': request.POST.get('phone_number'),
-            'id_number': request.POST.get('id_number'),
-            'role': request.POST.get('role')
-        }
-        pass
+        # data = {
+        #     'first_name': request.POST.get('first_name'),
+        #     'last_name': request.POST.get('last_name'),
+        #     'email': request.POST.get('email'),
+        #     'password': request.POST.get('password'),
+        #     'phone_number': request.POST.get('phone_number'),
+        #     'id_number': request.POST.get('id_number'),
+        #     'role': request.POST.get('role')
+        # }
+        
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        phone_number = request.POST.get('phone_number')
+        id_number = request.POST.get('id_number')
+        #role = request.POST.get('role')
+
+        teacher = Teacher()
+        #teacher.set_password = request.POST.get('password')
+
+        teacher.first_name = first_name
+        teacher.last_name = last_name
+        teacher.email = email
+        teacher.password = make_password(password)
+        teacher.phone_number = phone_number
+        teacher.id_number = id_number
+        teacher.role = 'teacher'
+        teacher.save()
+
+        #erick = CustomUser.objects.filter(first_name='Erick')
+        #print(erick[0].role)
+        return render(request, 'successful.html')
+    
     
