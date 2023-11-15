@@ -1,1 +1,62 @@
-<p> Welcome Teacher </P>
+<!-- teacher_dashboard.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        div {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #4caf50;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
+    <!-- Add your CSS styles or link to a stylesheet here -->
+</head>
+<body>
+
+  <h1>Welcome, Teacher {{ teacher.first_name }}!</h1>
+
+  <div>
+    <h2>Dashboard</h2>
+    {% comment %} <button onclick="location.href='{% url 'attendance' %}'">Update Attendance</button> {% endcomment %}
+    {% comment %} <button onclick="location.href='{% url 'contact_parent' %}'">Contact Parent</button> {% endcomment %}
+    <!-- Add more buttons or features as needed -->
+  </div>
+
+  <!-- Add additional content or sections as needed -->
+
+</body>
+</html>

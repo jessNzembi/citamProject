@@ -61,16 +61,16 @@ class Parent(AbstractBaseUser):
     def __str__(self):
         return self.first_name + " " + self.last_name
 
-class ClassRoom(AbstractBaseUser):
+class ClassRoom(models.Model):
     """classroom Table"""
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=20, unique=True)
     grade = models.CharField(max_length=5, choices=grade_choices, default='1')
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
     
-class Student(AbstractBaseUser):
+class Student(models.Model):
     """Student Table"""
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)

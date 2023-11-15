@@ -34,13 +34,22 @@
 <body>
 
 <div class="button-container">
-    <!-- Create Class Button -->
+    <!-- Create Teacher Button -->
     <a href="{% url 'add_teachers' %}">
         <button>Add Teacher</button>
     </a>
 
-    <!-- Add Students Button -->
-    <a href="add_student.html">
+    <!-- Add Parent Button -->
+    <a href="{% url 'add_parents' %}">
+        <button>Add Parent</button>
+    </a>
+
+    <!-- Add Classroom Button -->
+    <a href="{% url 'add_classrooms' %}">
+        <button>Add Classroom</button>
+    </a>
+
+    <a href="{% url 'add_students' %}">
         <button>Add Student</button>
     </a>
 
