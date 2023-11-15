@@ -54,6 +54,11 @@ class AddTeacher(View):
         data = {
             'first_name': request.POST.get('first_name'),
             'last_name': request.POST.get('last_name'),
+            'email': request.POST.get('email'),
+            'password': request.POST.get('password'),
+            'phone_number': request.POST.get('phone_number'),
+            'id_number': request.POST.get('id_number'),
+            'role': request.POST.get('role')
         }
         pass
     
