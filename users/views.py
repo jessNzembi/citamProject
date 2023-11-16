@@ -2,9 +2,9 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.views.generic.base import View
-from .models import CustomUser, Teacher, Parent, ClassRoom, Student
+from .models import CustomUser, Teacher, Parent, ClassroomFullError
 from django.utils import timezone
-from .forms import CustomUserCreationForm, TeacherCreationForm, ClassRoomForm, StudentForm
+from .forms import CustomUserCreationForm, ClassRoomForm, StudentForm
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
 
@@ -52,15 +52,6 @@ class AddTeacher(View):
         return render(request, 'add_teacher.html')
     
     def post(self, request, *args, **kwargs):
-        # data = {
-        #     'first_name': request.POST.get('first_name'),
-        #     'last_name': request.POST.get('last_name'),
-        #     'email': request.POST.get('email'),
-        #     'password': request.POST.get('password'),
-        #     'phone_number': request.POST.get('phone_number'),
-        #     'id_number': request.POST.get('id_number'),
-        #     'role': request.POST.get('role')
-        # }
         
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
@@ -68,10 +59,8 @@ class AddTeacher(View):
         password = request.POST.get('password')
         phone_number = request.POST.get('phone_number')
         id_number = request.POST.get('id_number')
-        #role = request.POST.get('role')
 
         teacher = Teacher()
-        #teacher.set_password = request.POST.get('password')
 
         teacher.first_name = first_name
         teacher.last_name = last_name
@@ -82,8 +71,6 @@ class AddTeacher(View):
         teacher.role = 'teacher'
         teacher.save()
 
-        #erick = CustomUser.objects.filter(first_name='Erick')
-        #print(erick[0].role)
         return render(request, 'successful.html')
     
 class AddParent(View):
@@ -91,15 +78,6 @@ class AddParent(View):
         return render(request, 'add_parent.html')
     
     def post(self, request, *args, **kwargs):
-        # data = {
-        #     'first_name': request.POST.get('first_name'),
-        #     'last_name': request.POST.get('last_name'),
-        #     'email': request.POST.get('email'),
-        #     'password': request.POST.get('password'),
-        #     'phone_number': request.POST.get('phone_number'),
-        #     'id_number': request.POST.get('id_number'),
-        #     'role': request.POST.get('role')
-        # }
         
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
@@ -110,7 +88,6 @@ class AddParent(View):
         residence = request.POST.get('residence')
 
         parent = Parent()
-        #parent.set_password = request.POST.get('password')
 
         parent.first_name = first_name
         parent.last_name = last_name
@@ -122,27 +99,7 @@ class AddParent(View):
         parent.residence = residence
         parent.save()
 
-        #erick = CustomUser.objects.filter(first_name='Erick')
-        #print(erick[0].role)
         return render(request, 'successful.html')
-    
-# class AddClassroom(View):
-#     def get(self, request, *args, **kwargs):
-#         return render(request, 'add_classroom.html')
-    
-#     def post(self, request, *args, **kwargs):
-#         name = request.POST.get('name')
-#         grade = request.POST.get('grade')
-#         teacher = request.POST.get('teacher')
-
-#         classroom = ClassRoom()
-
-#         classroom.name = name
-#         classroom.grade = grade
-#         classroom.teacher = teacher
-#         classroom.save()
-
-#         return render(request, 'successful.html')
 
 class AddClassroom(View):
     def get(self, request, *args, **kwargs):
@@ -153,7 +110,7 @@ class AddClassroom(View):
         form = ClassRoomForm(request.POST)
         if form.is_valid():
             form.save()
-            return render(request, 'successful.html')  # Replace with the actual success page URL
+            return render(request, 'successful.html')
         else:
             return render(request, 'add_classroom.html', {'form': form})
 
@@ -168,6 +125,14 @@ class AddStudent(View):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
-            form.save()
-            return render(request, 'successful.html')  # Replace with the actual success page URL
+            try:
+                form.save()
+                return render(request, 'successful.html')
+            except ClassroomFullError:
+                messages.add_message(request, messages.INFO, "Clasroom is Full!")
+                # return render(request, 'add_student.html')
         return render(request, self.template_name, {'form': form})
+    
+class Home(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'registration/home.html')

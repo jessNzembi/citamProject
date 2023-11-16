@@ -3,6 +3,8 @@
 {% block title %}Log In{% endblock title %}
 
 {% block content %}
+
+{% load static %}
 {% comment %} <h2>Log In</h2>
 <form method="post">
     {% csrf_token %}
@@ -47,6 +49,9 @@
             width: 100%;
             padding: 8px;
             box-sizing: border-box;
+            border: 1px solid #3498db; /* Match the border color used for input elements */
+            border-radius: 8px;
+            margin-top: 5px;
         }
 
         button {
@@ -59,6 +64,8 @@
             font-size: 16px;
         }
     </style>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+
 </head>
 <body>
 

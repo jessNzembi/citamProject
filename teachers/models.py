@@ -1,10 +1,13 @@
 from django.db import models
-from users.models import Teacher, Student
+from users.models import ClassRoom, Student
 
-class Attendance():
+class Attendance(models.Model):
     """ Attendance Table"""
-    
+
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    classroom = models.ForeignKey(ClassRoom, on_delete=models.CASCADE)
     date = models.DateField()
     present = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.student} - {self.date}"
