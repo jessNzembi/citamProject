@@ -2,9 +2,9 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.views.generic.base import View
-from .models import CustomUser, Teacher, Parent, ClassroomFullError
+from .models import CustomUser
 from django.utils import timezone
-from .forms import CustomUserCreationForm, ClassRoomForm, StudentForm
+from .forms import CustomUserCreationForm
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
 
@@ -20,7 +20,7 @@ class Login(View):
     
     def post(self, request, *args, **kwargs):
         role = request.POST.get('role')
-        if role == 'admin':
+        if role == 'pastor':
             user = CustomUser.objects.filter(email=request.POST.get('email'))
             if user:
                 if user[0].check_password(request.POST.get('password')):
@@ -29,7 +29,7 @@ class Login(View):
                     
                     return render(request, 'admin_dash.html')
         if role == 'parent':
-            user = Parent.objects.filter(email=request.POST.get('email'))
+            user = CustomUser.objects.filter(email=request.POST.get('email'))
             if user:
                 if user[0].check_password(request.POST.get('password')):
                     user[0].last_login = timezone.now()
@@ -37,7 +37,7 @@ class Login(View):
                     
                     return render(request, 'parent_dash.html')
         if role == 'teacher':
-            user = Teacher.objects.filter(email=request.POST.get('email'))
+            user = CustomUser.objects.filter(email=request.POST.get('email'))
             if user:
                 if user[0].check_password(request.POST.get('password')):
                     user[0].last_login = timezone.now()
@@ -60,78 +60,78 @@ class AddTeacher(View):
         phone_number = request.POST.get('phone_number')
         id_number = request.POST.get('id_number')
 
-        teacher = Teacher()
+        user = CustomUser()
 
-        teacher.first_name = first_name
-        teacher.last_name = last_name
-        teacher.email = email
-        teacher.password = make_password(password)
-        teacher.phone_number = phone_number
-        teacher.id_number = id_number
-        teacher.role = 'teacher'
-        teacher.save()
+        user.first_name = first_name
+        user.last_name = last_name
+        user.email = email
+        user.password = make_password(password)
+        user.phone_number = phone_number
+        user.id_number = id_number
+        user.role = 'teacher'
+        user.save()
 
         return render(request, 'successful.html')
     
-class AddParent(View):
-    def get(self, request, *args, **kwargs):
-        return render(request, 'add_parent.html')
+# class AddParent(View):
+#     def get(self, request, *args, **kwargs):
+#         return render(request, 'add_parent.html')
     
-    def post(self, request, *args, **kwargs):
+#     def post(self, request, *args, **kwargs):
         
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        phone_number = request.POST.get('phone_number')
-        id_number = request.POST.get('id_number')
-        residence = request.POST.get('residence')
+#         first_name = request.POST.get('first_name')
+#         last_name = request.POST.get('last_name')
+#         email = request.POST.get('email')
+#         password = request.POST.get('password')
+#         phone_number = request.POST.get('phone_number')
+#         id_number = request.POST.get('id_number')
+#         residence = request.POST.get('residence')
 
-        parent = Parent()
+#         parent = Parent()
 
-        parent.first_name = first_name
-        parent.last_name = last_name
-        parent.email = email
-        parent.password = make_password(password)
-        parent.phone_number = phone_number
-        parent.id_number = id_number
-        parent.role = 'parent'
-        parent.residence = residence
-        parent.save()
+#         parent.first_name = first_name
+#         parent.last_name = last_name
+#         parent.email = email
+#         parent.password = make_password(password)
+#         parent.phone_number = phone_number
+#         parent.id_number = id_number
+#         parent.role = 'parent'
+#         parent.residence = residence
+#         parent.save()
 
-        return render(request, 'successful.html')
+#         return render(request, 'successful.html')
 
-class AddClassroom(View):
-    def get(self, request, *args, **kwargs):
-        form = ClassRoomForm()
-        return render(request, 'add_classroom.html', {'form': form})
+# class AddClassroom(View):
+#     def get(self, request, *args, **kwargs):
+#         form = ClassRoomForm()
+#         return render(request, 'add_classroom.html', {'form': form})
 
-    def post(self, request, *args, **kwargs):
-        form = ClassRoomForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return render(request, 'successful.html')
-        else:
-            return render(request, 'add_classroom.html', {'form': form})
+#     def post(self, request, *args, **kwargs):
+#         form = ClassRoomForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return render(request, 'successful.html')
+#         else:
+#             return render(request, 'add_classroom.html', {'form': form})
 
-class AddStudent(View):
-    template_name = 'add_student.html'
-    form_class = StudentForm
+# class AddStudent(View):
+#     template_name = 'add_student.html'
+#     form_class = StudentForm
 
-    def get(self, request, *args, **kwargs):
-        form = self.form_class()
-        return render(request, self.template_name, {'form': form})
+#     def get(self, request, *args, **kwargs):
+#         form = self.form_class()
+#         return render(request, self.template_name, {'form': form})
 
-    def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            try:
-                form.save()
-                return render(request, 'successful.html')
-            except ClassroomFullError:
-                messages.add_message(request, messages.INFO, "Clasroom is Full!")
-                # return render(request, 'add_student.html')
-        return render(request, self.template_name, {'form': form})
+#     def post(self, request, *args, **kwargs):
+#         form = self.form_class(request.POST)
+#         if form.is_valid():
+#             try:
+#                 form.save()
+#                 return render(request, 'successful.html')
+#             except ClassroomFullError:
+#                 messages.add_message(request, messages.INFO, "Clasroom is Full!")
+#                 # return render(request, 'add_student.html')
+#         return render(request, self.template_name, {'form': form})
     
 class Home(View):
     def get(self, request, *args, **kwargs):
