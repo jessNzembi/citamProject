@@ -1,78 +1,41 @@
-{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <title>User Selection</title>
+</head>
+<body>
+    <img src="{% static 'images/church_logo.png' %}" alt="CITAM Church Logo">
+    <h1>CITAM CHURCH SCHOOL REGISTRATION</h1>
+    <div id="user-selection">
+        <p id="user-message">Choose the user:</p>
+        <div id="user-buttons">
+            <button class="user-button" onclick="selectUser('pastor')">Pastor</button>
+            <button class="user-button" onclick="selectUser('teacher')">Teacher</button>
+            <button class="user-button" onclick="selectUser('parent')">Parent</button>
+        </div>
+    </div>
 
-{% block title %}Home{% endblock title %}
-
-{% block content %}
-{% if user.is_authenticated %}
-    Hi {{ user.username }}!
-    {% if user.role == 'pastor' %}
-    
-        <h2>Welcome to the  Pastor Dashboard</h2>
-
-        {% comment %} <!-- Create Class Button -->
-        <a href="{% url 'create_class' %}">
-            <button>Create Class</button>
-        </a>
-
-        <!-- Add Students Button -->
-        <a href="{% url 'add_students' %}">
-            <button>Add Students</button>
-        </a>
-
-        <!-- Assign Teacher to Class Button -->
-        <a href="{% url 'assign_teacher' %}">
-            <button>Assign Teacher to Class</button>
-        </a>
-
-        <!-- Register Teacher Button -->
-        <a href="{% url 'register_teacher' %}">
-            <button>Register Teacher</button>
-        </a>
-
-        <!-- Register Parent Button -->
-        <a href="{% url 'register_parent' %}">
-            <button>Register Parent</button>
-        </a> {% endcomment %}
-    {% elif user.role == 'teacher' %}
-   
-        <h2>Welcome to the Techer Dashboard</h2>
-
-        <!-- Update Attendance Button -->
-        {% comment %} <a href="{% url 'update_attendance' %}">
-            <button>Update Attendance</button>
-        </a>
-
-        <!-- Contact Parent Button -->
-        <a href="{% url 'contact_parent' %}">
-            <button>Contact Parent</button>
-        </a>
-
-        <!-- Previous Buttons -->
-        <a href="{% url 'create_class' %}">
-            <button>Create Class</button>
-        </a>
-
-        <a href="{% url 'add_students' %}">
-            <button>Add Students</button>
-        </a>
-
-        <a href="{% url 'assign_teacher' %}">
-            <button>Assign Teacher to Class</button>
-        </a>
-
-        <a href="{% url 'register_teacher' %}">
-            <button>Register Teacher</button>
-        </a>
-
-        <a href="{% url 'register_parent' %}">
-            <button>Register Parent</button>
-        </a> {% endcomment %}
-
-    {% endif %}
-    <p><a href="{% url 'logout' %}">Log Out</a></p>
-{% else %}
-    <p>You are not logged in</p>
-    <a href="{% url 'login' %}">Log In</a> |
-    {% comment %} <a href="{% url 'signup' %}">Sign Up</a>  {% endcomment %}
-{% endif %}
-{% endblock content %}
+    <script>
+        function selectUser(userType) {
+            switch (userType) {
+                case 'pastor':
+                    window.location.href = '{% url 'signup' %}'; 
+                    break;
+                case 'teacher':
+                    window.location.href = 'teacher.html'; 
+                    break;
+                case 'parent':
+                    window.location.href = 'parent.html'; 
+                    break;
+                default:
+                    alert(`You have selected: ${userType}`);
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>
