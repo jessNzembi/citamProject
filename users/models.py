@@ -1,7 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, AbstractBaseUser
-from django.dispatch import receiver
-from django.db.models.signals import post_save
 from django.contrib import messages
 
 # role choices
@@ -22,7 +20,7 @@ grade_choices = (
     ('8', '8'),
 )
 
-class CustomUser(AbstractUser):
+class CustomUser(AbstractBaseUser):
     """user table"""
 
 #     role_choices = (
@@ -45,8 +43,10 @@ class CustomUser(AbstractUser):
     last_name = models.CharField(max_length=20)
     email = models.EmailField(unique=True)
     phone_number = models.CharField(max_length=15)
-    role = models.CharField(max_length=20, choices=role_choices, null=False, blank=False)
+    role = models.CharField(max_length=20, choices=role_choices, default='Parent')
     id_number = models.BigIntegerField(null=True, blank=True)
+
+    USERNAME_FIELD = 'email'
 
     def __str__(self):
         return self.first_name + " " + self.last_name
@@ -72,7 +72,7 @@ class ClassRoom(models.Model):
     capacity = models.PositiveIntegerField(default=0)
 
     def __str__(self):
-        return self.grade
+        return f"{self.grade} {self.name}"
     
 class ClassroomFullError(Exception):
     pass

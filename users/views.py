@@ -2,9 +2,9 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.views.generic.base import View
-from .models import CustomUser
+from .models import CustomUser, ClassRoom
 from django.utils import timezone
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, ClassRoomForm
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
 
@@ -19,31 +19,36 @@ class Login(View):
         return render(request, 'registration/login.html')
     
     def post(self, request, *args, **kwargs):
-        role = request.POST.get('role')
-        if role == 'pastor':
-            user = CustomUser.objects.filter(email=request.POST.get('email'))
-            if user:
-                if user[0].check_password(request.POST.get('password')):
-                    user[0].last_login = timezone.now()
-                    user[0].save()
-                    
+        # role = request.POST.get('role')
+        # if role == 'pastor':
+        user = CustomUser.objects.filter(email=request.POST.get('email'))
+        if user:
+            if user[0].check_password(request.POST.get('password')):
+                user[0].last_login = timezone.now()
+                user[0].save()
+                if user[0].role == 'Pastor':    
                     return render(request, 'admin_dash.html')
-        if role == 'parent':
-            user = CustomUser.objects.filter(email=request.POST.get('email'))
-            if user:
-                if user[0].check_password(request.POST.get('password')):
-                    user[0].last_login = timezone.now()
-                    user[0].save()
-                    
-                    return render(request, 'parent_dash.html')
-        if role == 'teacher':
-            user = CustomUser.objects.filter(email=request.POST.get('email'))
-            if user:
-                if user[0].check_password(request.POST.get('password')):
-                    user[0].last_login = timezone.now()
-                    user[0].save()
-                    
+                elif user[0].role == 'Teacher':
                     return render(request, 'teacher_dash.html')
+                elif user[0].role == 'Parent':
+                    return render(request, 'parent_dash.html')
+
+        # if role == 'parent':
+        #     user = CustomUser.objects.filter(email=request.POST.get('email'))
+        #     if user:
+        #         if user[0].check_password(request.POST.get('password')):
+        #             user[0].last_login = timezone.now()
+        #             user[0].save()
+                    
+        #             return render(request, 'parent_dash.html')
+        # if role == 'teacher':
+        #     user = CustomUser.objects.filter(email=request.POST.get('email'))
+        #     if user:
+        #         if user[0].check_password(request.POST.get('password')):
+        #             user[0].last_login = timezone.now()
+        #             user[0].save()
+                    
+        #             return render(request, 'teacher_dash.html')
         messages.add_message(request, messages.INFO, "Invalid Credentials!")
         return render(request, 'registration/login.html')
 
@@ -68,7 +73,7 @@ class AddTeacher(View):
         user.password = make_password(password)
         user.phone_number = phone_number
         user.id_number = id_number
-        user.role = 'teacher'
+        user.role = 'Teacher'
         user.save()
 
         return render(request, 'successful.html')
@@ -101,18 +106,18 @@ class AddTeacher(View):
 
 #         return render(request, 'successful.html')
 
-# class AddClassroom(View):
-#     def get(self, request, *args, **kwargs):
-#         form = ClassRoomForm()
-#         return render(request, 'add_classroom.html', {'form': form})
+class AddClassroom(View):
+    def get(self, request, *args, **kwargs):
+        form = ClassRoomForm()
+        return render(request, 'add_classroom.html', {'form': form})
 
-#     def post(self, request, *args, **kwargs):
-#         form = ClassRoomForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return render(request, 'successful.html')
-#         else:
-#             return render(request, 'add_classroom.html', {'form': form})
+    def post(self, request, *args, **kwargs):
+        form = ClassRoomForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return render(request, 'successful.html')
+        else:
+            return render(request, 'add_classroom.html', {'form': form})
 
 # class AddStudent(View):
 #     template_name = 'add_student.html'
