@@ -47,10 +47,12 @@
 </head>
 <body>
 
-  <h1>Welcome, Teacher {{ teacher.first_name }}!</h1>
+  <h1>Welcome, Teacher {{ CustomUser.first_name }}!</h1>
 
   <div>
     <h2>Dashboard</h2>
+    <button onclick="location.href='{% url 'add_parents' %}'"> Add Parent</button>
+    <button onclick="location.href='{% url 'add_students' %}'"> Add Student</button>
     <button onclick="location.href='{% url 'attendance' %}'">Update Attendance</button>
     {% comment %} <button onclick="location.href='{% url 'contact_parent' %}'">Contact Parent</button> {% endcomment %}
     <!-- Add more buttons or features as needed -->

@@ -39,19 +39,19 @@
         <button>Add Teacher</button>
     </a>
 
-    <!-- Add Parent Button -->
+    {% comment %} <!-- Add Parent Button -->
     <a href="{% url 'add_parents' %}">
         <button>Add Parent</button>
-    </a>
+    </a> {% endcomment %}
 
     <!-- Add Classroom Button -->
     <a href="{% url 'add_classrooms' %}">
         <button>Add Classroom</button>
     </a>
 
-    <a href="{% url 'add_students' %}">
+    {% comment %} <a href="{% url 'add_students' %}">
         <button>Add Student</button>
-    </a>
+    </a> {% endcomment %}
 
     {% comment %} <!-- Assign Teacher to Class Button -->
     <a href="{% url 'assign_teacher' %}">

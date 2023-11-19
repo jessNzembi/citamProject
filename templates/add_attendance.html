@@ -3,10 +3,47 @@
 {% block title %}Add Attendance{% endblock title %}
 
 {% block content %}
-<h2>Log In</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Log In</button>
-</form>
+<!-- templates/your_app/your_html_page.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List of Things</title>
+</head>
+<body>
+
+    <h1>List of Things</h1>
+
+    {% if items %}
+        <ol>
+            {% for item in items %}
+                <li>
+                    {{ item.first_name }} {{" "}}  {{item.last_name}} <!-- Assuming 'name' is the attribute you want to display -->
+                    
+                    <!-- Add your buttons here -->
+                    <button onclick="handleButton1('{{ item.id }}')">Button 1</button>
+                    <button onclick="handleButton2('{{ item.id }}')">Button 2</button>
+                </li>
+            {% endfor %}
+        </ol>
+    {% else %}
+        <p>No items available.</p>
+    {% endif %}
+
+    <script>
+        function handleButton1(itemId) {
+            // Add your logic for Button 1
+            alert("Button 1 clicked for item with ID: " + itemId);
+        }
+
+        function handleButton2(itemId) {
+            // Add your logic for Button 2
+            alert("Button 2 clicked for item with ID: " + itemId);
+        }
+    </script>
+
+</body>
+</html>
+
 {% endblock content%}
