@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.views.generic.base import View
@@ -29,7 +29,7 @@ class Login(View):
                 if user[0].role == 'Pastor':    
                     return render(request, 'admin_dash.html')
                 elif user[0].role == 'Teacher':
-                    return render(request, 'teacher_dash.html')
+                    return redirect('teacher_dashboard', teacher_id=user[0].id)
                 elif user[0].role == 'Parent':
                     return render(request, 'parent_dash.html')
 
@@ -141,3 +141,14 @@ class AddClassroom(View):
 class Home(View):
     def get(self, request, *args, **kwargs):
         return render(request, 'registration/home.html')
+    
+
+class TeacherDashboard(View):
+    template_name = 'teacher_dash.html'
+
+    def get(self, request, *args, **kwargs):
+        teacher_id = kwargs.get('teacher_id')
+        # teacher = get_object_or_404(Teacher, user_id=teacher_id)
+        # Retrieve additional data for the teacher dashboard if needed
+
+        return render(request, self.template_name, {'teacher_id': teacher_id})
