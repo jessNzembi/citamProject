@@ -53,7 +53,7 @@
     <h2>Dashboard</h2>
     <button onclick="location.href='{% url 'add_parents' %}'"> Add Parent</button>
     <button onclick="location.href='{% url 'add_students' %}'"> Add Student</button>
-    <button onclick="location.href='{% url 'attendance' %}'">Update Attendance</button>
+    <button onclick="location.href='{% url 'attendance' teacher_id=teacher_id %}'">Update Attendance</button>
     {% comment %} <button onclick="location.href='{% url 'contact_parent' %}'">Contact Parent</button> {% endcomment %}
     <!-- Add more buttons or features as needed -->
   </div>
