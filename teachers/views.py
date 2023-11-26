@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.views.generic.base import View
 from .forms import AttendanceForm, StudentForm, ParentCreationForm
-from users.models import ClassroomFullError
+from users.models import ClassroomFullError, CustomUser
+from users.views import TeacherDashboard
 from .models import Student
 from django.contrib import messages
 
@@ -43,20 +44,25 @@ class AddAttendance(View):
     form_class = AttendanceForm
 
     def get(self, request, *args, **kwargs):
-        class_list = Student.objects.all()
-        return render(request, "add_attendance.html", {"items": class_list})
         form = self.form_class()
-        return render(request, self.template_name, {'form': form})
+        class_list = Student.objects.all()
+        teacher_id = kwargs.get('teacher_id')
+        # teacher = CustomUser.objects.filter(id=teacher_id)
+        return render(request, "add_attendance.html", {'teacher_id': teacher_id, 'form': form, "items": class_list})
+        # form = self.form_class()
+        # return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
-        class_list = Student.objects.all()
-        return render(request, "add_attendance.html", {"items": class_list})
+        # class_list = Student.objects.all()
+        # teacher_id = request.GET.get('teacher_id')
+        # return render(request, "add_attendance.html", {'teacher_id': teacher_id}, {"items": class_list})
           
-        # form = self.form_class(request.POST)
-        # if form.is_valid():
-        #     form.save()
-        #     return render(request, 'successful.html')
-        # return render(request, self.template_name, {'form': form})
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            form.save()
+            return render(request, 'successful.html')
+        return render(request, self.template_name, {'form': form})
+        # return render(request, "add_attendance.html", {'teacher_id': teacher_id}, {'form': form}, {"items": class_list})
 		
           
         
