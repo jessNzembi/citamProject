@@ -5,32 +5,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
-    <title>User Selection</title>
+    <title>Christ is The Answer Ministries</title>
 </head>
 <body>
     <img src="{% static 'images/church_logo.png' %}" alt="CITAM Church Logo">
     <h1>CITAM CHURCH SCHOOL REGISTRATION</h1>
     <div id="user-selection">
-        <p id="user-message">Choose the user:</p>
+        <p id="user-message"></p>
         <div id="user-buttons">
-            <button class="user-button" onclick="selectUser('pastor')">Pastor</button>
-            <button class="user-button" onclick="selectUser('teacher')">Teacher</button>
-            <button class="user-button" onclick="selectUser('parent')">Parent</button>
+            <button class="user-button" onclick="selectUser('login')">Login</button>
+            <button class="user-button" onclick="selectUser('about')">About Us</button>
+            {% comment %} <button class="user-button" onclick="selectUser('parent')">Parent</button> {% endcomment %}
         </div>
     </div>
 
     <script>
         function selectUser(userType) {
             switch (userType) {
-                case 'pastor':
-                    window.location.href = '{% url 'signup' %}'; 
+                case 'login':
+                    window.location.href = '{% url 'login' %}'; 
                     break;
-                case 'teacher':
-                    window.location.href = 'teacher.html'; 
+                case 'about':
+                    window.open("https://citam.org/who-we-are/", "_blank"); 
                     break;
-                case 'parent':
+                {% comment %} case 'parent':
                     window.location.href = 'parent.html'; 
-                    break;
+                    break; {% endcomment %}
                 default:
                     alert(`You have selected: ${userType}`);
                     break;
