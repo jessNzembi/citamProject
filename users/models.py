@@ -4,6 +4,7 @@ from django.contrib import messages
 
 # role choices
 role_choices = (
+    ("Admin", "Admin"),
     ("Pastor", "Pastor"),
     ("Teacher", "Teacher"),
     ("Parent", "Parent"),
@@ -37,7 +38,7 @@ class CustomUser(AbstractBaseUser):
 class Bus(models.Model):
     """manages transport"""
     zone_choices = (
-        ("Ngong,Kiserian,Rongai", "Ngong,Kiserian,Rongai"),
+        ("Ngong, Kiserian, Rongai", "Ngong, Kiserian, Rongai"),
         ("Karen, Bulbul, Nairobi", "Karen, Bulbul, Nairobi"),
     )
     seats_choices = (
@@ -45,6 +46,8 @@ class Bus(models.Model):
         (52, 52),
         (62, 62),
     )
+
+    driver = models.CharField(max_length=20)
     number_plate = models.CharField(max_length=10, unique=True)
     seats = models.PositiveIntegerField(choices=seats_choices)
     zone = models.CharField(max_length=50, choices=zone_choices)

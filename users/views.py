@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.views.generic.base import View
-from .models import CustomUser, ClassRoom
+from .models import CustomUser, ClassRoom, Bus
 from django.utils import timezone
 from .forms import CustomUserCreationForm, ClassRoomForm
 from django.contrib import messages
@@ -32,23 +32,8 @@ class Login(View):
                     return redirect('teacher_dashboard', teacher_id=user[0].id)
                 elif user[0].role == 'Parent':
                     return render(request, 'parent_dash.html')
-
-        # if role == 'parent':
-        #     user = CustomUser.objects.filter(email=request.POST.get('email'))
-        #     if user:
-        #         if user[0].check_password(request.POST.get('password')):
-        #             user[0].last_login = timezone.now()
-        #             user[0].save()
-                    
-        #             return render(request, 'parent_dash.html')
-        # if role == 'teacher':
-        #     user = CustomUser.objects.filter(email=request.POST.get('email'))
-        #     if user:
-        #         if user[0].check_password(request.POST.get('password')):
-        #             user[0].last_login = timezone.now()
-        #             user[0].save()
-                    
-        #             return render(request, 'teacher_dash.html')
+                elif user[0].role == 'Admin':
+                    return render(request, 'admin_dash.html')
         messages.add_message(request, messages.INFO, "Invalid Credentials!")
         return render(request, 'registration/login.html')
 
@@ -78,33 +63,27 @@ class AddTeacher(View):
 
         return render(request, 'successful.html')
     
-# class AddParent(View):
-#     def get(self, request, *args, **kwargs):
-#         return render(request, 'add_parent.html')
+class AddBus(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'add_bus.html')
     
-#     def post(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         
-#         first_name = request.POST.get('first_name')
-#         last_name = request.POST.get('last_name')
-#         email = request.POST.get('email')
-#         password = request.POST.get('password')
-#         phone_number = request.POST.get('phone_number')
-#         id_number = request.POST.get('id_number')
-#         residence = request.POST.get('residence')
+        driver = request.POST.get('driver')
+        number_plate = request.POST.get('number_plate')
+        seats = request.POST.get('seats')
+        zone = request.POST.get('zone')
 
-#         parent = Parent()
+        bus = Bus()
 
-#         parent.first_name = first_name
-#         parent.last_name = last_name
-#         parent.email = email
-#         parent.password = make_password(password)
-#         parent.phone_number = phone_number
-#         parent.id_number = id_number
-#         parent.role = 'parent'
-#         parent.residence = residence
-#         parent.save()
+        bus.driver = driver
+        bus.number_plate = number_plate
+        bus.seats = seats
+        bus.zone = zone
+        bus.save()
 
-#         return render(request, 'successful.html')
+        return render(request, 'successful.html')
+
 
 class AddClassroom(View):
     def get(self, request, *args, **kwargs):
