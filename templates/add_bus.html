@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Bus</title>
+</head>
+<body>
+
+    <h1>Add Bus</h1>
+
+    <form method="post" action="{% url 'transport' %}">
+        {% csrf_token %}
+
+        <div>
+            <label for="driver">Driver:</label>
+            <input type="text" id="driver" name="driver" required>
+        </div>
+
+        <div>
+            <label for="number_plate">Number Plate:</label>
+            <input type="text" id="number_plate" name="number_plate" required>
+        </div>
+
+        <div>
+            <label for="seats">Seats:</label>
+            <select id="seats" name="seats" required>
+                <option value="14">14</option>
+                <option value="52">52</option>
+                <option value="62">62</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="zone">Zone:</label>
+            <select id="zone" name="zone" required>
+                <option value="Ngong, Kiserian, Rongai">Ngong, Kiserian, Rongai</option>
+                <option value="Karen, Bulbul, Nairobi">Karen, Bulbul, Nairobi</option>
+            </select>
+        </div>
+
+        <button type="submit">Add Bus</button>
+    </form>
+
+</body>
+</html>
