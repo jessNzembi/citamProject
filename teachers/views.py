@@ -4,21 +4,49 @@ from .forms import AttendanceForm, StudentForm, ParentCreationForm
 from users.models import ClassroomFullError, CustomUser, Bus
 from users.views import TeacherDashboard
 from .models import Student, Attendance
+from django.contrib.auth.hashers import make_password
 from django.contrib import messages
 
 class AddParent(View):
-    def get(self, request, *args, **kwargs):
-        form = ParentCreationForm()
-        return render(request, 'signup.html', {'form': form})
+    # def get(self, request, *args, **kwargs):
+    #     form = ParentCreationForm()
+    #     return render(request, 'add_parent.html', {'form': form})
 
-    def post(self, request, *args, **kwargs):
-        form = ParentCreationForm(request.POST)
+    # def post(self, request, *args, **kwargs):
+    #     form = ParentCreationForm(request.POST)
         
-        if form.is_valid():
-            form.save()
-            return render(request, 'successful.html')
-        else:
-            return render(request, 'signup.html', {'form': form})
+    #     if form.is_valid():
+    #         form.save()
+    #         return render(request, 'successful.html')
+    #     else:
+    #         for field, errors in form.errors.items():
+    #             for error in errors:
+    #                 messages.error(request, f"Error in field '{field}': {error}")
+    #         return render(request, 'add_parent.html', {'form': form})
+    def get(self, request, *args, **kwargs):
+        return render(request, 'add_parent.html')
+    
+    def post(self, request, *args, **kwargs):
+        
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        phone_number = request.POST.get('phone_number')
+        id_number = request.POST.get('id_number')
+
+        user = CustomUser()
+
+        user.first_name = first_name
+        user.last_name = last_name
+        user.email = email
+        user.password = make_password(password)
+        user.phone_number = phone_number
+        user.id_number = id_number
+        user.role = 'Parent'
+        user.save()
+
+        return render(request, 'successful.html')
 
 class AddStudent(View):
     template_name = 'add_student.html'
@@ -112,12 +140,18 @@ class AddAttendance(View):
 
         if form.is_valid():
             date = form.cleaned_data['date']
-            present_students = form.cleaned_data.get('student', [])  # Assuming your form has a students field
+            present_student_ids = [int(student_id) for student_id in request.POST.getlist('student')]
 
             for student in class_list:
-                present = student in present_students
+                present = student.id in present_student_ids
                 Attendance.objects.create(student=student, classroom=student.grade, date=date, present=present)
 
             return render(request, 'successful.html')
 
-        return render(request, self.template_name, {'teacher_id': teacher_id, 'form': form, 'items': class_list})      
+
+        # Display form errors using messages
+        for field, errors in form.errors.items():
+            for error in errors:
+                messages.error(request, f"Error in field '{field}': {error}")
+
+        return render(request, self.template_name, {'teacher_id': teacher_id, 'form': form, 'items': class_list})    
