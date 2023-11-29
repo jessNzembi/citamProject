@@ -21,4 +21,5 @@ class StudentForm(forms.ModelForm):
 class AttendanceForm(forms.ModelForm):
 	class Meta:
 		model = Attendance
-		fields = ['student', 'classroom', 'present']
+		fields = ['date', 'present']
+		# fields = ['student', 'classroom', 'present']
