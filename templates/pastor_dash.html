@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    {% comment %} <style>
+    <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -29,20 +29,20 @@
             font-size: 16px;
             margin: 10px;
         }
-    </style> {% endcomment %}
+    </style>
 </head>
 <body>
 
 <div class="button-container">
     <!-- Create Teacher Button -->
-    <a href="{% url 'signup' %}">
-        <button>Add User</button>
+    <a href="{% url 'add_teachers' %}">
+        <button>Add Teacher</button>
     </a>
 
-    <!-- Add Transport Button -->
-    <a href="{% url 'transport' %}">
-        <button>Add Bus</button>
-    </a>
+    {% comment %} <!-- Add Parent Button -->
+    <a href="{% url 'add_parents' %}">
+        <button>Add Parent</button>
+    </a> {% endcomment %}
 
     <!-- Add Classroom Button -->
     <a href="{% url 'add_classrooms' %}">

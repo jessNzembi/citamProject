@@ -1,3 +1,5 @@
+{% extends 'base.html' %}
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -85,10 +87,10 @@
             <input type="text" id="id_number" name="id_number" required>
         </div>
 
-        <div class="form-group">
+        {% comment %} <div class="form-group">
             <label for="residence">Residence:</label>
             <input type="text" id="residence" name="residence" required>
-        </div>
+        </div> {% endcomment %}
 
         <div class="form-group">
             <button type="submit">Sign Up</button>
@@ -98,3 +100,4 @@
 
 </body>
 </html>
+{% endblock content %}

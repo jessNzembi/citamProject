@@ -1,16 +1,64 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-Ǘ">
-    <meta name="viewport" content="width=device-width, initial-scale=ǐ, shrink-to-fit=no">
-    <title> CITAM </title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <title>Your School</title>
 </head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="admissions.html">Admissions</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                {% if user.is_authenticated %}
+                    <p><a href="{% url 'logout' %}">Log out</a></p>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Sign In </a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
 
     <main>
         {% block content %}
         {% endblock content %}
     </main>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <p>CITAM</p>
+            </div>
+    
+            <div class="footer-contacts">
+                <p>
+                    </a>Contacts: Phone: 0114602603/4 Tel: 020-23 482 45 <br>
+                    <br>
+                    <a href="mailto:edu37872@gmail.com">
+                        <img src="{% static 'images/icons8-gmail.svg' %}" alt="Email">
+                    </a>
+    
+                    <a href="https://wa.me/+254114602603">
+                        <img src="{% static 'images/whatsapp.svg' %}" alt="WhatsApp">
+                    </a>
+    
+                    <a href="https://twitter.com/CITAMonline">
+                        <img src="{% static 'images/x-twitter.svg' %}" alt="Twitter">
+                    </a>
+                </p>
+            </div>
+        </div>
+    
+        <div class="footer-copyright">
+            <p>© 2023 CITAM,
+                Christ is The Answer Ministries,<br>
+                All Rights Reserved</p>
+        </div>
+    </footer>
 </body>
 </html>
