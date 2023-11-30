@@ -7,6 +7,8 @@ from django.utils import timezone
 from .forms import CustomUserCreationForm, ClassRoomForm
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 
 class SignUpView(CreateView):
@@ -27,15 +29,16 @@ class Login(View):
                 user[0].last_login = timezone.now()
                 user[0].save()
                 if user[0].role == 'Pastor':    
-                    return render(request, 'admin_dash.html')
+                    return redirect('pastor_dashboard', pastor_id=user[0].id)
                 elif user[0].role == 'Teacher':
                     return redirect('teacher_dashboard', teacher_id=user[0].id)
                 elif user[0].role == 'Parent':
-                    return render(request, 'parent_dash.html')
+                    return redirect('parent_dashboard', parent_id=user[0].id)
                 elif user[0].role == 'Admin':
                     return render(request, 'admin_dash.html')
         messages.add_message(request, messages.INFO, "Invalid Credentials!")
         return render(request, 'registration/login.html')
+
 
 class AddTeacher(View):
     def get(self, request, *args, **kwargs):
@@ -127,7 +130,21 @@ class TeacherDashboard(View):
 
     def get(self, request, *args, **kwargs):
         teacher_id = kwargs.get('teacher_id')
-        # teacher = get_object_or_404(Teacher, user_id=teacher_id)
-        # Retrieve additional data for the teacher dashboard if needed
 
         return render(request, self.template_name, {'teacher_id': teacher_id})
+    
+class ParentDashboard(View):
+    template_name = 'parent_dash.html'
+
+    def get(self, request, *args, **kwargs):
+        parent_id = kwargs.get('parent_id')
+
+        return render(request, self.template_name, {'parent_id': parent_id})
+
+class PastorDashboard(View):
+    template_name = 'pastor_dash.html'
+
+    def get(self, request, *args, **kwargs):
+        pastor_id = kwargs.get('pastor_id')
+
+        return render(request, self.template_name, {'pastor_id': pastor_id})
