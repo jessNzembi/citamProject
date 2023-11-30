@@ -1,4 +1,5 @@
-{% load static %}
+{% extends 'base.html' %}
+{% comment %} {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,15 +8,62 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
     <title>Christ is The Answer Ministries</title>
 </head>
-<body>
-    <img src="{% static 'images/church_logo.png' %}" alt="CITAM Church Logo">
+<body> {% endcomment %}
+    {% block content %}
+    {% load static %}
+    <section id="home">
+        <h1>Welcome to CITAM Church School</h1>
+        <p>A place of excellence in education.</p>
+
+        <div class="image-container">
+            <div class="image-group">
+                <img src="{% static 'images/SCHOOL.jpg' %}" alt="Image 1">
+                <div class="text-container">
+                    <p>
+                        At CITAM, we believe that schools are the crucibles where young minds are molded, dreams are nurtured, and futures are shaped. Our commitment to education is a beacon that guides us in creating an enriching environment where curiosity is sparked, knowledge is cultivated, and character is forged. In the hallowed halls of learning, we strive to foster a love for discovery, an appreciation for diversity, and a passion for lifelong learning. Together, as we embark on the journey of education, let us build a foundation that empowers students to thrive intellectually, emotionally, and socially—preparing them not only for academic success but also for the challenges and triumphs of life beyond the classroom.  </p>
+                </div>
+            </div>
+
+            <div class="image-group">
+                <img src="{% static 'images/STUDENT.jpg' %}" alt="Image 2">
+                <div class="text-container">
+                    <p>
+                        At CITAM, students are the heartbeat of our educational vision. We recognize the immense potential within each individual and are dedicated to providing a nurturing space where students can flourish academically, creatively, and personally. Our commitment extends beyond textbooks and exams; we aspire to cultivate inquisitive minds, resilient spirits, and compassionate hearts. In the diverse tapestry of our student community, we celebrate uniqueness, foster collaboration, and inspire a sense of purpose. As students embark on their educational journey with us, we aim to empower them not only with knowledge but with the skills and values that will propel them towards a future of limitless possibilities. Together, let us champion the transformative power of education, guiding and supporting our students as they navigate the exciting path of growth, discovery, and self-realization  </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="image-container">
+            <div class="image-group">
+                <img src="{% static 'images/PRAY.jpeg' %}" alt="Image 3">
+                <div class="text-container">
+                    <p>
+                        CITAM, the organization committed to fostering a nurturing environment for spiritual growth and community development, recognizes the invaluable role of schools in shaping the future. We believe in the transformative power of education and the importance of instilling values that transcend the academic realm. As we navigate the corridors of learning, let us not forget the profound impact of prayers in guiding our path, fostering unity, and cultivating a spirit of compassion. Together, through the synergy of education and prayer, we aspire to build a foundation that empowers individuals to excel academically, thrive spiritually, and contribute meaningfully to society.
+                        <br>In the harmonious union of church and school, we envision a holistic approach to education—one that not only imparts academic knowledge but also nurtures the spiritual, moral, and ethical dimensions of each student. Through this synergy, we aspire to cultivate a community where the teachings of CITAM resonate in both sacred spaces and classrooms alike, creating a seamless tapestry of faith, education, and character development.
+
+                        Together, let us continue to build a foundation that intertwines the rich tapestry of CITAM's spiritual legacy with the academic endeavors of our students. As they navigate the corridors of knowledge, may they find inspiration in the shared values of our church, fostering a deep sense of purpose and integrity that will guide them on their journey of both intellectual and spiritual growth</p>
+                </div>
+            </div>
+
+            <div class="image-group">
+                <img src="{% static 'images/PLAY.jpg' %}" alt="Image 4">
+                <div class="text-container">
+                    <p>
+                        At CITAM, we celebrate the holistic development of children as they embark on their educational journey. Recognizing the profound influence of sports in shaping character, fostering teamwork, and promoting a healthy lifestyle, we emphasize the synergy between school and sports. Our commitment extends beyond the classroom, envisioning an environment where children not only excel academically but also thrive physically and emotionally through engaging sports activities. Together, let us champion an inclusive approach to education, where the joy of learning and the thrill of sports intertwine, nurturing well-rounded individuals poised for success in both their academic and athletic pursuits   </p>
+                </div>
+            </div>
+        </div>
+
+     
+    </section>
+    {% comment %} <img src="{% static 'images/church_logo.png' %}" alt="CITAM Church Logo">
     <h1>CITAM CHURCH SCHOOL REGISTRATION</h1>
     <div id="user-selection">
         <p id="user-message"></p>
         <div id="user-buttons">
             <button class="user-button" onclick="selectUser('login')">Login</button>
             <button class="user-button" onclick="selectUser('about')">About Us</button>
-            {% comment %} <button class="user-button" onclick="selectUser('parent')">Parent</button> {% endcomment %}
+            {% comment %} <button class="user-button" onclick="selectUser('parent')">Parent</button> 
         </div>
     </div>
 
@@ -30,12 +78,13 @@
                     break;
                 {% comment %} case 'parent':
                     window.location.href = 'parent.html'; 
-                    break; {% endcomment %}
+                    break; 
                 default:
                     alert(`You have selected: ${userType}`);
                     break;
             }
         }
-    </script>
-</body>
-</html>
+    </script> {% endcomment %}
+    {% endblock content %}
+{% comment %} </body>
+</html> {% endcomment %}
